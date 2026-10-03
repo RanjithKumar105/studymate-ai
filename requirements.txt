@@ -1,0 +1,10 @@
+flask
+flask-cors
+streamlit
+pypdf
+langchain
+langchain-text-splitters
+sentence-transformers
+faiss-cpu
+google-generativeai
+python-dotenv

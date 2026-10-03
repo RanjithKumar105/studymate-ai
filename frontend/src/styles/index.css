@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-app: #FFFFFF;
+  --bg-sidebar: #F8FAFC;
+  --bg-card: #F1F5F9;
+  --bg-chat-user: #EEF2FF;
+  --bg-chat-ai: #F8FAFC;
+  --border-color: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --accent-primary: #4F46E5;
+  --accent-hover: #4338CA;
+  --accent-light: #EEF2FF;
+  --badge-success-bg: #ECFDF5;
+  --badge-success-text: #047857;
+  --badge-success-border: #A7F3D0;
+  --badge-warning-bg: #FFFBEB;
+  --badge-warning-text: #B45309;
+  --badge-warning-border: #FDE68A;
+  --input-bg: #FFFFFF;
+  --input-text: #0F172A;
+  --sidebar-width: 280px;
+  --danger-color: #EF4444;
+  --logo-bg: #F1F5F9;
+}
+
+[data-theme="dark"] {
+  --bg-app: #0B0F19;
+  --bg-sidebar: #111827;
+  --bg-card: #1E293B;
+  --bg-chat-user: #1E1B4B;
+  --bg-chat-ai: #1E293B;
+  --border-color: #334155;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --accent-primary: #6366F1;
+  --accent-hover: #818CF8;
+  --accent-light: #312E81;
+  --badge-success-bg: #064E3B;
+  --badge-success-text: #34D399;
+  --badge-success-border: #059669;
+  --badge-warning-bg: #451A03;
+  --badge-warning-text: #FBBF24;
+  --badge-warning-border: #78350F;
+  --input-bg: #1E293B;
+  --input-text: #F8FAFC;
+  --danger-color: #EF4444;
+  --logo-bg: #1E293B;
+}
+
+/* Reset & Global Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* App Layout Container */
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Mobile & Desktop Sidebar Drawer, Collapse, & Header Toggle handling */
+.header-hamburger-btn {
+  display: flex !important;
+}
+
+.sidebar-close-btn {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 85vw) !important;
+    transform: translateX(-100%);
+    z-index: 60 !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .sidebar-container.open {
+    transform: translateX(0) !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .sidebar-container {
+    position: relative !important;
+    transform: none !important;
+    flex-shrink: 0;
+  }
+
+  /* When sidebar is closed on desktop, hide sidebar container completely so main chat expands */
+  .sidebar-container:not(.open) {
+    display: none !important;
+  }
+
+  /* Hide header hamburger button on desktop only when sidebar is open */
+  .header-hamburger-btn:not(.visible) {
+    display: none !important;
+  }
+}
+
+/* Suggestion Grid Responsiveness */
+.suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .suggestion-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Suggestion Card Hover & Focus */
+.suggestion-card:hover {
+  border-color: var(--accent-primary) !important;
+  background-color: var(--accent-light) !important;
+  transform: translateY(-1px);
+}
+.suggestion-card:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Document Delete Button Hover */
+.doc-delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #EF4444 !important;
+}
+.doc-delete-btn:focus-visible {
+  outline: 2px solid #EF4444;
+  outline-offset: 1px;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Markdown Content Styling for ChatGPT-like UI */
+.markdown-content {
+  color: var(--text-primary);
+  font-size: 0.925rem;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.markdown-content p {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 1.15rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.markdown-content h1 {
+  font-size: 1.35rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3rem;
+}
+
+.markdown-content h2 {
+  font-size: 1.18rem;
+}
+
+.markdown-content h3 {
+  font-size: 1.05rem;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-top: 0.35rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.4rem;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+}
+
+.markdown-content li {
+  margin-bottom: 0.3rem;
+}
+
+.markdown-content li > p {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-content strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.markdown-content em {
+  font-style: italic;
+}
+
+.markdown-content code {
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background-color: var(--bg-card);
+  color: var(--accent-primary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.markdown-content pre {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid var(--accent-primary);
+  margin: 0.6rem 0;
+  padding-left: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1rem 0;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.85rem;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+}
+
+.markdown-content th {
+  background-color: var(--bg-card);
+  font-weight: 600;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}

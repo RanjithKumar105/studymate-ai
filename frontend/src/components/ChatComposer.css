@@ -1,0 +1,705 @@
+/* ================================================
+   ChatComposer — Modern AI Chat Input Styles
+   ================================================ */
+
+/* Container */
+.composer-root {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem 1rem;
+  background-color: var(--bg-app);
+}
+
+/* ── Attachment Menu Popup ────────────────────── */
+.composer-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+}
+
+.composer-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 1rem;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow:
+    0 12px 40px -8px rgba(0, 0, 0, 0.15),
+    0 6px 16px -6px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  z-index: 60;
+  width: 264px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  /* Animation */
+  animation: menuSlideUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom left;
+}
+
+@keyframes menuSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.composer-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.composer-menu-item:hover {
+  background-color: var(--bg-card);
+}
+
+.composer-menu-item:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
+}
+
+.composer-menu-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--accent-light);
+  color: var(--accent-primary);
+  transition: transform 0.15s ease;
+}
+
+.composer-menu-item:hover .composer-menu-item-icon {
+  transform: scale(1.05);
+}
+
+.composer-menu-item-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.composer-menu-item-desc {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+  line-height: 1.3;
+}
+
+/* ── Attachment Preview Area ──────────────────── */
+.composer-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0;
+  transition: margin-bottom 0.2s ease;
+}
+
+.composer-attachments.has-items {
+  margin-bottom: 10px;
+}
+
+/* PDF Attachment Chip */
+.attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.825rem;
+  max-width: 100%;
+  animation: chipAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes chipAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.attachment-chip-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.attachment-chip-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background-color: var(--badge-success-bg);
+  color: var(--badge-success-text);
+  border: 1px solid var(--badge-success-border);
+  padding: 2px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.attachment-chip-pages {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.attachment-chip-status {
+  font-weight: 600;
+  color: var(--accent-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Image Attachment Chip */
+.attachment-image-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 0.825rem;
+  animation: chipAppear 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.attachment-image-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.attachment-image-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.attachment-image-name {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attachment-image-label {
+  font-size: 0.675rem;
+  color: var(--text-muted);
+}
+
+/* Remove button (X) on attachment chips */
+.attachment-remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  margin-left: 2px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.attachment-remove-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.attachment-remove-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 1px;
+}
+
+/* ── Main Composer Form ───────────────────────── */
+.composer-form {
+  display: flex;
+  align-items: flex-end;
+  background-color: var(--input-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 24px;
+  padding: 6px 8px 6px 6px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  gap: 4px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.composer-form:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.08),
+    0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .composer-form:focus-within {
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.12),
+    0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Plus Button */
+.composer-plus-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.composer-plus-btn:hover {
+  background-color: var(--bg-card);
+  color: var(--accent-primary);
+}
+
+.composer-plus-btn.active {
+  background-color: var(--accent-light);
+  color: var(--accent-primary);
+  transform: rotate(45deg);
+}
+
+.composer-plus-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Textarea */
+.composer-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--input-text);
+  font-size: 0.9rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  resize: none;
+  line-height: 1.5;
+  padding: 6px 4px;
+  max-height: 140px;
+  min-height: 22px;
+}
+
+.composer-textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.composer-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Send Button */
+.composer-send-btn {
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  cursor: default;
+  background-color: var(--bg-card);
+  color: var(--text-muted);
+}
+
+.composer-send-btn.enabled {
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+}
+
+.composer-send-btn.enabled:hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.06);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+}
+
+.composer-send-btn.enabled:active {
+  transform: scale(0.95);
+}
+
+.composer-send-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.composer-send-btn.loading {
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  cursor: wait;
+  opacity: 0.8;
+}
+
+/* ── Processing Bar & Cancel Button inside Composer ──────── */
+.composer-form.is-processing {
+  border-color: var(--accent-primary);
+  background-color: var(--input-bg);
+}
+
+.composer-processing-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent-primary);
+  user-select: none;
+  overflow: hidden;
+}
+
+.composer-processing-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.processing-spinner {
+  flex-shrink: 0;
+  color: var(--accent-primary);
+}
+
+.composer-cancel-btn {
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.composer-cancel-btn:hover {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #EF4444;
+  transform: scale(1.06);
+}
+
+.composer-cancel-btn:active {
+  transform: scale(0.94);
+}
+
+.composer-cancel-btn:focus-visible {
+  outline: 2px solid #EF4444;
+  outline-offset: 2px;
+}
+
+.doc-delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  color: #EF4444 !important;
+}
+
+.doc-delete-btn:focus-visible {
+  outline: 2px solid #EF4444;
+  outline-offset: 1px;
+}
+
+/* ── Camera Modal Enhancements ────────────────── */
+.camera-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.camera-modal-card {
+  width: 100%;
+  max-width: 540px;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 12px 25px -8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.camera-modal-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.camera-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.camera-modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.camera-modal-close-btn:hover {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.camera-modal-close-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 1px;
+}
+
+.camera-viewfinder {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.camera-viewfinder video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-error {
+  padding: 1.5rem;
+  text-align: center;
+  color: #F87171;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 85%;
+}
+
+.camera-error p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.camera-initializing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+}
+
+.camera-modal-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: var(--bg-sidebar);
+}
+
+.camera-btn-cancel {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.camera-btn-cancel:hover {
+  background-color: var(--bg-card);
+}
+
+.camera-btn-cancel:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.camera-btn-capture {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 1.25rem;
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.camera-btn-capture:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: scale(1.02);
+}
+
+.camera-btn-capture:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.camera-btn-capture:disabled {
+  background-color: var(--bg-card);
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.camera-btn-capture:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ───────────────────────────────── */
+
+/* Mobile: < 480px */
+@media (max-width: 480px) {
+  .composer-root {
+    padding: 0 0.5rem 0.75rem 0.5rem;
+  }
+
+  .composer-form {
+    border-radius: 20px;
+    padding: 5px 6px 5px 5px;
+  }
+
+  .composer-menu {
+    left: 0.5rem;
+    right: 0.5rem;
+    width: auto;
+  }
+
+  .attachment-chip-name {
+    max-width: 150px;
+  }
+
+  .attachment-image-name {
+    max-width: 100px;
+  }
+
+  .camera-viewfinder {
+    height: 260px;
+  }
+
+  .camera-modal-card {
+    border-radius: 14px;
+  }
+}
+
+/* Tablet: 481 – 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .composer-root {
+    padding: 0 0.75rem 1rem 0.75rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1440px) {
+  .composer-root {
+    max-width: 820px;
+  }
+}
